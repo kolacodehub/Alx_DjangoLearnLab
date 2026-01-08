@@ -1,9 +1,15 @@
 from bookshelf.models import Book
-print(book.title) 
-<!-- 1984 -->
 
-print(book.author)
-<!-- George Orwell -->
+```python
+# Get the book object
+book = Book.objects.get(title="1984")
 
-print(book.publication_year)
-<!-- 1949 -->
+# Display attributes
+print(f"Title: {book.title}")
+print(f"Author: {book.author}")
+print(f"Year: {book.publication_year}")
+
+# Output:
+Title: 1984
+Author: George Orwell
+Year: 1949
