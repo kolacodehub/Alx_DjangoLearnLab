@@ -116,3 +116,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
+
+# Redirect to the books list (or any name from your urls.py) after login
+LOGIN_REDIRECT_URL = "list_books"
+
+# Redirect to the login page after logging out
+LOGOUT_REDIRECT_URL = "login"
