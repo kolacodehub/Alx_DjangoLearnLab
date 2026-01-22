@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Edit Book</title>
+  </head>
+  <body>
+    <h1>Edit: {{ book.title }}</h1>
+    <form method="post">
+      {% csrf_token %}
+      <p>
+        New Title: <input type="text" name="title" value="{{ book.title }}" />
+      </p>
+      <button type="submit">Update Book</button>
+    </form>
+    <a href="{% url 'list_books' %}">Cancel</a>
+  </body>
+</html>
