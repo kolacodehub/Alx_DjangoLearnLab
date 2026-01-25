@@ -145,3 +145,24 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Set them to True only if you have HTTPS set up or are deploying.
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+
+# --- STEP 1: Configure HTTPS Support ---
+
+# Redirects all non-HTTPS requests to HTTPS (http:// -> https://)
+SECURE_SSL_REDIRECT = True
+
+# HTTP Strict Transport Security (HSTS) settings
+# Tells the browser: "For the next 1 year, ONLY talk to me over HTTPS."
+SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+
+# --- STEP 2: Enforce Secure Cookies ---
+
+# Prevents the session cookie from being sent over unencrypted connections
+SESSION_COOKIE_SECURE = True
+
+# Prevents the CSRF token from being sent over unencrypted connections
+CSRF_COOKIE_SECURE = True
