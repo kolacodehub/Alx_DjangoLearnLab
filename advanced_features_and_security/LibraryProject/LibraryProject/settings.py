@@ -166,3 +166,15 @@ SESSION_COOKIE_SECURE = True
 
 # Prevents the CSRF token from being sent over unencrypted connections
 CSRF_COOKIE_SECURE = True
+
+
+# --- STEP 3: Implement Secure Headers ---
+
+# Prevents the browser from MIME-sniffing a response away from the declared content-type
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enables the browser's XSS filtering and helps prevent cross-site scripting attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevents your site from being embedded in frames (protects against Clickjacking)
+X_FRAME_OPTIONS = "DENY"
