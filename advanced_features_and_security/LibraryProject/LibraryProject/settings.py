@@ -48,6 +48,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Add your new CSP middleware here (use your actual app name)
+    "bookshelf.middleware.ContentSecurityPolicyMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
 ]
 
 ROOT_URLCONF = "LibraryProject.urls"

@@ -2,6 +2,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book
 
+def book_search(request):
+    query = request.GET.get("q")
+
+    if query:
+        # SECURE: Using the ORM's filter method.
+        # Django automatically handles parameterization, preventing SQL Injection.
+        books = Book.objects.filter(title__icontains=query)
+
+        # INSECURE (Do NOT do this):
+        # books = Book.objects.raw("SELECT * FROM bookshelf_book WHERE title = '%s'" % query)
+    else:
+        books = Book.objects.all()
+
+    return render(request, "bookshelf/book_list.html", {"books": books})
+
 
 # 1. List View (Required by the check)
 # Checks for 'can_view' permission
