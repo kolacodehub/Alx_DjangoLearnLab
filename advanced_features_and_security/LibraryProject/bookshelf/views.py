@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book
+from .forms import ExampleForm
+
+def fname(arg):
+    print('kk')
 
 def book_search(request):
     query = request.GET.get("q")
