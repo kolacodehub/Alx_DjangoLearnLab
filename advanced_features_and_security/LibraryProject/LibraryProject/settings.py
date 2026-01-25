@@ -124,3 +124,21 @@ LOGIN_REDIRECT_URL = "list_books"
 LOGOUT_REDIRECT_URL = "login"
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
+
+# 1. Production Security Settings
+# IMPORTANT: In a real production environment, this must be False.
+# However, for local testing, if you set this to False, you MUST set ALLOWED_HOSTS = ['127.0.0.1']
+DEBUG = False
+ALLOWED_HOSTS = ["*"]  # Required when DEBUG is False
+
+# 2. Browser-Side Protections
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = "DENY"  # Prevents Clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# 3. Secure Cookies (HTTPS only)
+# Note: If you are running locally without HTTPS (http://127.0.0.1),
+# these next two lines might break your login.
+# Set them to True only if you have HTTPS set up or are deploying.
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
