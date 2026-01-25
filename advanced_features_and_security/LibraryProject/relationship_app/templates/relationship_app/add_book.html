@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Add Book</title>
+  </head>
+  <body>
+    <h1>Add a New Book</h1>
+    <form method="post">
+      {% csrf_token %}
+      <p>Title: <input type="text" name="title" /></p>
+      <button type="submit">Save Book</button>
+    </form>
+    <a href="{% url 'list_books' %}">Back to List</a>
+  </body>
+</html>
