@@ -178,3 +178,6 @@ SECURE_BROWSER_XSS_FILTER = True
 
 # Prevents your site from being embedded in frames (protects against Clickjacking)
 X_FRAME_OPTIONS = "DENY"
+
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

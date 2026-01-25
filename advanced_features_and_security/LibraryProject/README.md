@@ -53,3 +53,46 @@ def article_create(request):
 ## 3. Secure Views & Input Handling
 - **SQL Injection Prevention**: All database queries use the Django ORM (`.filter()`, `.get()`), which automatically parameterizes inputs. Raw SQL queries are avoided.
 - **CSRF Protection**: All POST forms include the `{% csrf_token %}` tag.
+
+
+# Security Configuration Review
+
+## 1. Django Settings Configuration
+We have hardened the application by modifying `settings.py` to enforce strict security policies:
+
+- **SECURE_SSL_REDIRECT = True**: Forces all traffic to HTTPS.
+- **SECURE_HSTS_SECONDS = 31536000**: Activates HSTS for 1 year, preventing protocol downgrade attacks.
+- **SECURE_HSTS_INCLUDE_SUBDOMAINS**: Extends HSTS protection to all subdomains.
+- **SESSION_COOKIE_SECURE / CSRF_COOKIE_SECURE**: Ensures cookies are never sent over unencrypted HTTP.
+- **X_FRAME_OPTIONS = 'DENY'**: Fully blocks iframe embedding to prevent Clickjacking.
+- **SECURE_CONTENT_TYPE_NOSNIFF**: Stops the browser from guessing content types, mitigating drive-by download attacks.
+
+## 2. Deployment Configuration (Nginx Example)
+For production, we use Nginx to handle SSL termination. Below is the required configuration to support the Django settings above.
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    # Redirect all HTTP to HTTPS (Matches SECURE_SSL_REDIRECT)
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name example.com;
+
+    ssl_certificate /etc/letsencrypt/live/[example.com/fullchain.pem](https://example.com/fullchain.pem);
+    ssl_certificate_key /etc/letsencrypt/live/[example.com/privkey.pem](https://example.com/privkey.pem);
+
+    # HSTS Header (Matches SECURE_HSTS_SECONDS)
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    
+    # X-Frame-Options (Matches settings.py)
+    add_header X-Frame-Options "DENY";
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
