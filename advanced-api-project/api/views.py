@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework
 
 from .models import Book
 from .serializers import BookSerializer
@@ -25,7 +25,7 @@ class BookListView(generics.ListAPIView):
     # 1. DjangoFilterBackend: Handle simple equality-based filtering
     # 2. SearchFilter: Handle keyword text search
     # 3. OrderingFilter: Handle sorting of results
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_backends = [rest_framework.DjangoFilterBackend, SearchFilter, OrderingFilter]
 
     # FILTERS:
     # Use 'filterset_fields' for exact matches.
