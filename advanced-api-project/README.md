@@ -19,3 +19,34 @@ This API provides a comprehensive system for managing a book collection, built w
 
 ## Permissions Logic
 The API follows the **"Read-Only for Public"** standard. While the catalog is open for viewing (`AllowAny`), all write operations (`POST`, `PUT`, `DELETE`) are protected by `IsAuthenticated` to prevent unauthorized data modification.
+
+## Advanced Query Features
+
+The `/books/` endpoint supports advanced filtering, searching, and sorting options.
+
+### 1. Filtering (Exact Match)
+Filter the list by specific field values.
+- **URL Parameter:** `?<field_name>=<value>`
+- **Example:** Get all books published in 2024.
+  `GET /api/books/?publication_year=2024`
+- **Example:** Get all books by a specific Author ID.
+  `GET /api/books/?author=3`
+
+### 2. Searching (Text Search)
+Perform a text search across Book titles and Author names.
+- **URL Parameter:** `?search=<term>`
+- **Example:** Find books with "Harry" in the title or author name.
+  `GET /api/books/?search=Harry`
+
+### 3. Ordering (Sorting)
+Sort the results by specific fields. Use a `-` prefix for descending order.
+- **URL Parameter:** `?ordering=<field_name>`
+- **Example:** Sort by publication year (Newest first).
+  `GET /api/books/?ordering=-publication_year`
+- **Example:** Sort alphabetically by title.
+  `GET /api/books/?ordering=title`
+
+### 4. Combined Usage
+You can combine all three parameters for complex queries.
+- **Example:** Search for "Fantasy" books, published in 2023, ordered by title.
+  `GET /api/books/?search=Fantasy&publication_year=2023&ordering=title`

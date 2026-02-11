@@ -1,5 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Book
 from .serializers import BookSerializer
@@ -7,13 +9,38 @@ from .serializers import BookSerializer
 
 class BookListView(generics.ListAPIView):
     """
-    PURPOSE: Provides a read-only list of all books in the database.
-    PERMISSIONS: AllowAny - Publicly accessible for catalog browsing.
+    View to list all books.
+
+    Capabilities:
+    - Filtering: precise matches on title, author, and publication_year.
+    - Searching: fuzzy matches on title and author name.
+    - Ordering: sort results by title and publication_year.
     """
 
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    # CONFIGURATION:
+    # 1. DjangoFilterBackend: Handle simple equality-based filtering
+    # 2. SearchFilter: Handle keyword text search
+    # 3. OrderingFilter: Handle sorting of results
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
+    # FILTERS:
+    # Use 'filterset_fields' for exact matches.
+    # Example: ?author=1 (Returns books by Author ID 1)
+    filterset_fields = ["title", "author", "publication_year"]
+
+    # SEARCH:
+    # Use 'search_fields' for text search.
+    # Note: 'author__name' allows searching by the related author's text name, not just ID.
+    search_fields = ["title", "author__name"]
+
+    # ORDERING:
+    # Use 'ordering_fields' to allow client-controlled sorting.
+    # Default ordering is usually by ID, but clients can override this
+    ordering_fields = ["title", "publication_year"]
 
 
 class BookDetailView(generics.RetrieveAPIView):
