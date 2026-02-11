@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 
 # Create your models here.
 class Profile(models.Model):
@@ -14,6 +14,9 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
 
+    def get_absolute_url(self):
+        # This tells Django: "If you want to view this post, go to the 'post-detail' view"
+        return reverse("profile")
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -25,3 +28,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # This tells Django: "If you want to view this post, go to the 'post-detail' view"
+        return reverse("post-detail", kwargs={"pk": self.pk})

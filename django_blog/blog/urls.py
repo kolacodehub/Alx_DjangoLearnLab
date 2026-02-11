@@ -14,10 +14,16 @@ urlpatterns = [
         auth_views.LogoutView.as_view(template_name="blog/logout.html"),
         name="logout",
     ),
-    
     # Custom urls
-    path("", views.Home.as_view()),
     path("home/", views.Home.as_view(), name="home"),
     path("register/", views.RegisterView.as_view(), name="register"),
     path("profile/", views.profile, name="profile"),
+    
+    # 1. The Home Page (List of posts)
+    path("", views.PostListView.as_view(), name="blog-home"),
+    # 2. CRUD Paths
+    path("post/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),
+    path("post/new/", views.PostCreateView.as_view(), name="post-create"),
+    path("post/<int:pk>/update/", views.PostUpdateView.as_view(), name="post-update"),
+    path("post/<int:pk>/delete/", views.PostDeleteView.as_view(), name="post-delete"),
 ]

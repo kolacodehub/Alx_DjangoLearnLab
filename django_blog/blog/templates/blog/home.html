@@ -1,17 +1,27 @@
-{% extends 'blog/base.html' %}
-
+{% extends "blog/base.html" %}
 {% block content %}
-    <section class="hero">
-        <h1>Welcome to the Blog</h1>
-        <p>A simple platform to share your thoughts.</p>
-    </section>
+    
+    <div class="container">
 
-    <section class="post-list">
-        <article class="post-card">
-            <h2>Sample Blog Post Title</h2>
-            <p class="meta">Published on Feb 11, 2026 by Admin</p>
-            <p>This is a static example of how a post will look once you connect the database...</p>
-            <a href="#" class="read-more">Read More</a>
-        </article>
-    </section>
+        {% for post in posts %}
+            <article class="post-card" style="background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                    <div>
+                        <a href="{% url 'profile' %}" style="color: #333; font-weight: bold; text-decoration: none;">{{ post.author }}</a>
+                        <small style="color: #777; display: block;">{{ post.published_date|date:"F d, Y" }}</small>
+                    </div>
+                </div>
+                
+                <h2><a href="{% url 'post-detail' post.id %}" style="text-decoration: none; color: #1f2937;">{{ post.title }}</a></h2>
+                
+                <p style="color: #4b5563;">{{ post.content|truncatewords:50 }}</p>
+                
+                <a href="{% url 'post-detail' post.id %}" style="color: #2563eb; text-decoration: none; font-weight: 600;">Read More &rarr;</a>
+            </article>
+        {% empty %}
+            <p>No posts yet. Be the first to write one!</p>
+        {% endfor %}
+    </div>
+
 {% endblock %}
