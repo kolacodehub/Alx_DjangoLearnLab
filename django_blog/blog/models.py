@@ -32,3 +32,17 @@ class Post(models.Model):
     def get_absolute_url(self):
         # This tells Django: "If you want to view this post, go to the 'post-detail' view"
         return reverse("post-detail", kwargs={"pk": self.pk})
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    published_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.author.username} - {self.content[:20]}"
+
+    # This sends the user back to the POST they commented on, not the comment itself
+    def get_absolute_url(self):
+        return reverse("post-detail", kwargs={"pk": self.post.pk})
