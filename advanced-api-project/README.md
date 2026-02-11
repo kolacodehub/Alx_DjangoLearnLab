@@ -50,3 +50,15 @@ Sort the results by specific fields. Use a `-` prefix for descending order.
 You can combine all three parameters for complex queries.
 - **Example:** Search for "Fantasy" books, published in 2023, ordered by title.
   `GET /api/books/?search=Fantasy&publication_year=2023&ordering=title`
+
+## Testing
+This project includes a comprehensive suite of unit tests located in `api/test_views.py`. The tests cover:
+
+1.  **CRUD Operations:** Verifies that Books can be created, read, updated, and deleted.
+2.  **Permissions:** Ensures that only authenticated users can modify data (Create/Update/Delete), while unauthenticated users are restricted to Read-only access.
+3.  **Advanced Query Features:** specific tests to validate filtering by year, searching by text, and ordering results.
+
+### How to Run Tests
+Execute the following command in the project root:
+```bash
+python manage.py test api
