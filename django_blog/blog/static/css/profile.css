@@ -1,0 +1,148 @@
+/* profile.css - Professional Profile Management */
+
+/* 1. Layout & Canvas */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 4rem; /* Gives it some space from the top */
+    min-height: 90vh;
+    background-color: #f3f4f6; /* Soft Slate */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* 2. The Card */
+.profile-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 500px; /* Slightly wider than login for comfort */
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* 3. Typography */
+.profile-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.profile-subtitle {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+}
+
+/* 4. Form Styling */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: #1f2937;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.form-group input:focus {
+    background-color: #fff;
+    border-color: #4b5563;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(229, 231, 235, 0.5);
+}
+
+.help-text {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* 5. Buttons */
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #1f2937; /* Charcoal */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #000;
+}
+
+/* 6. Logout Section (Danger Zone) */
+.divider {
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+    margin: 2.5rem 0 1.5rem 0;
+}
+
+.logout-section {
+    text-align: center;
+}
+
+.logout-section p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.btn-danger {
+    background-color: #ffffff;
+    color: #ef4444; /* Red Text */
+    border: 1px solid #fee2e2; /* Red Border */
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
+
+.btn-danger:hover {
+    background-color: #fef2f2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+/* 7. Alerts (Success/Error Messages) */
+.alert {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border-color: #10b981; /* Green */
+}
+
+.alert-error, .alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #ef4444; /* Red */
+}
