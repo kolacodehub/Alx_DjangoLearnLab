@@ -11,6 +11,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.db.models import Q
+from taggit.models import Tag
 from .models import Post, Comment
 from .forms import UserUpdateForm, ProfileUpdateForm, CommentForm
 
@@ -149,3 +151,41 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         # Redirect back to the post that this comment belonged to
         comment = self.get_object()
         return reverse("post-detail", kwargs={"pk": comment.post.pk})
+
+
+def search(request):
+    query = request.GET.get("q")  # Get the search term from the URL
+    results = []
+
+    if query:
+        # Search Title OR Content OR Tags
+        # .distinct() removes duplicates if a post matches multiple criteria
+        results = Post.objects.filter(
+            Q(title__icontains=query)
+            | Q(content__icontains=query)
+            | Q(tags__name__icontains=query)
+        ).distinct()
+
+    return render(
+        request, "blog/search_results.html", {"posts": results, "query": query}
+    )
+
+
+# 2. Tagged Posts View (Reusing ListView logic is cleaner)
+class PostByTagListView(ListView):
+    model = Post
+    template_name = "blog/home.html"  # We can reuse the home template!
+    context_object_name = "posts"
+    ordering = ["-published_date"]
+    paginate_by = 5
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get("tag_slug")
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        # Filter posts by this tag
+        return Post.objects.filter(tags__in=[tag]).order_by("-published_date")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tag"] = self.kwargs.get("tag_slug")
+        return context

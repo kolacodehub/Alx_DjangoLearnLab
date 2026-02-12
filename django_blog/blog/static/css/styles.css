@@ -161,3 +161,43 @@ body {
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 }
+
+/* Search Bar Styling */
+.search-form {
+    display: flex;
+    align-items: center;
+    background: #f3f4f6;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin-right: 15px;
+}
+.search-form input {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 5px;
+    font-size: 0.9rem;
+}
+.search-form button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Tag Styling */
+.tag-badge {
+    display: inline-block;
+    background-color: #e5e7eb;
+    color: #4b5563;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    margin-right: 5px;
+    margin-top: 5px;
+    transition: background 0.2s;
+}
+.tag-badge:hover {
+    background-color: #d1d5db;
+    color: #111827;
+}

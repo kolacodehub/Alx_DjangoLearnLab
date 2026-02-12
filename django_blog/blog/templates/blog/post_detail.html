@@ -26,6 +26,12 @@
         {{ object.content }}
     </p>
 
+    <div class="post-tags">
+    {% for tag in post.tags.all %}
+        <a href="{% url 'posts-by-tag' tag.slug %}" class="tag-badge">#{{ tag.name }}</a>
+    {% endfor %}
+    </div>
+
     <hr style="margin: 3rem 0; border-top: 1px solid #e5e7eb;">
 
     <div class="comments-section">
