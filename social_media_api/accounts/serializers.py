@@ -1,5 +1,4 @@
 # My code
-"""
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
@@ -29,9 +28,9 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
         model = User
         # We only expose the fields they are allowed to change after registration
         fields = ["bio", "profile_picture", "first_name", "last_name"]
-"""
 
 # Checker code
+"""
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token  # 1. Added the requested import
@@ -67,3 +66,4 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ["bio", "profile_picture", "first_name", "last_name"]
+"""
