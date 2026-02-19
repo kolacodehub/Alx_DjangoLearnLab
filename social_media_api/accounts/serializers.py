@@ -20,3 +20,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             ),  # safely provides an empty string fallback if the bio is missing because of blank=True in my model
         )
         return user
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        # We only expose the fields they are allowed to change after registration
+        fields = ["bio", "profile_picture", "first_name", "last_name"]
