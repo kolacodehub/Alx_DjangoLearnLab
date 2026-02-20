@@ -1,24 +1,33 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsAuthorOrReadOnly
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by("-created_at")
     serializer_class = PostSerializer
 
-    # IsAuthorOrReadOnly: Our custom bouncer ensures only the author can edit/delete.
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
-    # This intercepts the save process to inject the author automatically
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ["author"]  
+    search_fields = ["title", "content"]
+    ordering_fields = ["created_at", "title"]
+    
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by("-created_at")
     serializer_class = CommentSerializer
+
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
     def perform_create(self, serializer):
