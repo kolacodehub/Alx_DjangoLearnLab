@@ -31,11 +31,19 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all().order_by("-created_at")
     serializer_class = CommentSerializer
-
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        comment = serializer.save(author=self.request.user)
+
+        # THE TRIGGER: Notify the post author, but only if they aren't commenting on their own post
+        if comment.post.author != self.request.user:
+            Notification.objects.create(
+                actor=self.request.user,
+                recipient=comment.post.author,
+                verb="commented on your post",
+                target=comment.post,
+            )
 
 
 class UserFeedView(generics.ListAPIView):

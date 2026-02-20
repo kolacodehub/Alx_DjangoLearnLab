@@ -7,15 +7,16 @@ from django.contrib.auth import get_user_model
 from rest_framework.generics import RetrieveUpdateAPIView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from notifications.models import Notification
 
 from rest_framework import status
 
 from .serializers import UserRegistrationSerializer, UserProfileUpdateSerializer
 
-User = get_user_model()
+CustomUser = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserRegistrationSerializer
     permission_classes = [
         permissions.AllowAny
@@ -68,11 +69,12 @@ class UserProfileView(RetrieveUpdateAPIView):
         return self.request.user
 
 
-class FollowUserView(APIView):
+class FollowUserView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
-        user_to_follow = get_object_or_404(User, id=user_id)
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
 
         if request.user.id == user_to_follow.id:
             return Response(
@@ -81,6 +83,14 @@ class FollowUserView(APIView):
             )
 
         request.user.following.add(user_to_follow)
+
+        # THE TRIGGER: Create the notification
+        Notification.objects.create(
+            actor=request.user,
+            recipient=user_to_follow,
+            verb="started following you",
+            target=user_to_follow,
+        )
 
         return Response(
             {"message": f"You are now following {user_to_follow.username}"},
@@ -92,7 +102,7 @@ class UnfollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
-        user_to_unfollow = get_object_or_404(User, id=user_id)
+        user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
 
         request.user.following.remove(user_to_unfollow)
 
