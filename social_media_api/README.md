@@ -302,3 +302,92 @@ JSON
         }
     ]
 }
+
+<!-- ------------------------- -->
+❤️ Likes & 🔔 Notifications API Documentation
+These endpoints handle user engagement. When users interact with content (liking, commenting) or other users (following), the system automatically generates notifications for the affected parties.
+
+Base URL: http://127.0.0.1:8000/api/
+Authentication: All endpoints in this section require a valid token passed in the header: Authorization: Token <your_token>.
+
+1. Likes Endpoints
+Like a Post
+Endpoint: POST /posts/<id>/like/
+
+Auth Required: Yes
+
+URL Parameter: id (The integer ID of the post you want to like)
+
+Request Body: None required.
+
+Description: Adds a like to the specified post and triggers a "liked your post" notification to the author.
+
+Success Response (200 OK):
+
+JSON
+{
+    "message": "Post liked successfully."
+}
+Error Response (400 Bad Request): Triggered if you try to like a post you have already liked.
+
+JSON
+{
+    "message": "You have already liked this post."
+}
+Error Response (404 Not Found): Triggered if the post ID does not exist.
+
+Unlike a Post
+Endpoint: POST /posts/<id>/unlike/
+
+Auth Required: Yes
+
+URL Parameter: id (The integer ID of the post you want to unlike)
+
+Request Body: None required.
+
+Success Response (200 OK):
+
+JSON
+{
+    "message": "Post unliked successfully."
+}
+Error Response (400 Bad Request): Triggered if you try to unlike a post you never liked in the first place.
+
+JSON
+{
+    "message": "You have not liked this post."
+}
+2. Notifications Endpoint
+Fetch User Notifications
+Endpoint: GET /notifications/
+
+Auth Required: Yes
+
+Description: Returns a list of all notifications for the authenticated user. Unread notifications ("read": false) will always appear at the top, sorted by the newest timestamp.
+
+Success Response (200 OK):
+
+JSON
+[
+    {
+        "id": 15,
+        "actor_username": "saedaan",
+        "verb": "commented on your post",
+        "timestamp": "2026-02-20T12:20:00Z",
+        "read": false
+    },
+    {
+        "id": 14,
+        "actor_username": "another_user",
+        "verb": "started following you",
+        "timestamp": "2026-02-20T11:15:00Z",
+        "read": false
+    },
+    {
+        "id": 12,
+        "actor_username": "saedaan",
+        "verb": "liked your post",
+        "timestamp": "2026-02-19T09:00:00Z",
+        "read": true
+    }
+]
