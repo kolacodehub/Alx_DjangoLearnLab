@@ -1,4 +1,3 @@
-"""
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -101,9 +100,9 @@ class UnfollowUserView(APIView):
             {"message": f"You have unfollowed {user_to_unfollow.username}"},
             status=status.HTTP_200_OK,
         )
-"""
 
 # ALX shit
+"""
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -146,3 +145,4 @@ class UnfollowUserView(generics.GenericAPIView):
             {"message": f"You have unfollowed {user_to_unfollow.username}"},
             status=status.HTTP_200_OK,
         )
+"""
